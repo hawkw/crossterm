@@ -1,7 +1,7 @@
 //! This module contains some commands that could be executed for specific task.
 
 use std::io;
-use std::sync::Mutex;
+use std::sync::Arc;
 use TerminalOutput;
 
 pub mod shared_commands;

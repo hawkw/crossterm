@@ -1,16 +1,17 @@
 //! This module contains the logic to style an object that contains some state witch can be styled.
 
 use super::{Color, ObjectStyle};
-
+use TerminalOutput;
 
 use std::fmt::{self, Display};
 use std::io::Write;
+use std::sync::Arc;
 
 #[cfg(unix)]
 use super::Attribute;
 
 #[cfg(windows)]
-use super::super::super::write::WinApiStdout;
+use modules::write::WinApiStdout;
 
 use color;
 

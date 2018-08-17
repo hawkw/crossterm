@@ -1,6 +1,6 @@
 //! This module contains the commands that can be used for windows systems.
 
-use super::{IAlternateScreenCommand, IEnableAnsiCommand, IRawScreenCommand, Stdout};
+use super::{IAlternateScreenCommand, IEnableAnsiCommand, IRawScreenCommand};
 
 use kernel::windows_kernel::{ansi_support, csbi, handle, kernel};
 use modules::write::IStdout;
@@ -10,7 +10,7 @@ use winapi::um::wincon;
 use winapi::um::wincon::{CHAR_INFO, COORD, ENABLE_VIRTUAL_TERMINAL_PROCESSING, SMALL_RECT};
 
 use std::io::{Error, ErrorKind, Result};
-use std::sync::Mutex;
+use TerminalOutput;
 
 /// This command is used for enabling and disabling ANSI code support for windows systems,
 /// For more info check: https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences.

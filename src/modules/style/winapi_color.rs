@@ -5,6 +5,8 @@
 
 use modules::write::WinApiStdout;
 use modules::style::{Color, ColorType, ITerminalColor, TerminalOutput};
+use TerminalOutput;
+
 use kernel::windows_kernel::{csbi, kernel};
 use winapi::um::wincon;
 

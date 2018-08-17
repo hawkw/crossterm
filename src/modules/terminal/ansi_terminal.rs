@@ -13,7 +13,7 @@ impl AnsiTerminal {
 }
 
 impl ITerminal for AnsiTerminal {
-    fn clear(&self, clear_type: ClearType, screen_manager: &Arc<TerminalInput>) {
+    fn clear(&self, clear_type: ClearType, screen_manager: &Arc<TerminalOutput>) {
         match clear_type {
             ClearType::All => {
                 screen_manager.write_str(csi!("2J"));

@@ -13,7 +13,7 @@ use TerminalOutput;
 
 use std::convert::From;
 use std::io::{self, Write};
-use std::sync::Mutex;
+use std::sync::{Arc};
 
 pub type AlternateScreen = Box<IAlternateScreenCommand + Send>;
 
