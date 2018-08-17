@@ -5,10 +5,12 @@ use winapi::um::processenv::GetStdHandle;
 use winapi::um::winbase::{STD_INPUT_HANDLE, STD_OUTPUT_HANDLE};
 use winapi::um::winnt::HANDLE;
 use std::sync::Arc;
-use super::super::super::modules::write::{Stdout, WinApiStdout};
+
+use TerminalOutput;
+use super::super::super::modules::write::{ WinApiStdout};
 
 /// Get the global stored handle whits provides access to the current screen.
-pub fn get_current_handle(screen_manager: &Arc<Stdout>) -> Result<HANDLE> {
+pub fn get_current_handle(screen_manager: &Arc<TerminalOutput>) -> Result<HANDLE> {
     let mut mutex = screen_manager;
 
     let handle: Result<HANDLE>;
@@ -20,7 +22,6 @@ pub fn get_current_handle(screen_manager: &Arc<Stdout>) -> Result<HANDLE> {
             Some(win_api) => win_api,
             None => return Err(io::Error::new(io::ErrorKind::Other,"Could not convert to winapi screen write, this could happen when the user has an ANSI screen write and is calling the platform specific operations 'get_cursor_pos' or 'get_terminal_size'"))
         };
-
 
     handle = Ok(*winapi_screen_manager.get_handle());
 

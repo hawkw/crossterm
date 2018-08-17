@@ -3,14 +3,13 @@
 use winapi::shared::minwindef::{FALSE, TRUE};
 use winapi::shared::ntdef::NULL;
 use winapi::um::minwinbase::SECURITY_ATTRIBUTES;
-use winapi::um::wincon::{
-    CreateConsoleScreenBuffer, GetConsoleScreenBufferInfo, SetConsoleActiveScreenBuffer,
-    SetConsoleScreenBufferSize, CONSOLE_SCREEN_BUFFER_INFO, CONSOLE_TEXTMODE_BUFFER, COORD,
-};
+use winapi::um::wincon::{CreateConsoleScreenBuffer, GetConsoleScreenBufferInfo,
+                         SetConsoleActiveScreenBuffer, SetConsoleScreenBufferSize,
+                         CONSOLE_SCREEN_BUFFER_INFO, CONSOLE_TEXTMODE_BUFFER, COORD};
 use winapi::um::winnt::HANDLE;
 use winapi::um::winnt::{FILE_SHARE_READ, FILE_SHARE_WRITE, GENERIC_READ, GENERIC_WRITE};
 
-use super::{handle, kernel, Empty, Stdout};
+use super::{handle, kernel, Empty, TerminalOutput};
 
 use std::sync::{Once, ONCE_INIT};
 use std::io::{self, ErrorKind, Result};
@@ -18,7 +17,7 @@ use std::mem::size_of;
 use std::sync::Arc;
 
 /// Create a new console screen buffer info struct.
-pub fn get_csbi(screen_manager: &Arc<Stdout>) -> Result<CONSOLE_SCREEN_BUFFER_INFO> {
+pub fn get_csbi(screen_manager: &Arc<TerminalOutput>) -> Result<CONSOLE_SCREEN_BUFFER_INFO> {
     let mut csbi = CONSOLE_SCREEN_BUFFER_INFO::empty();
     let success;
 
@@ -38,7 +37,7 @@ pub fn get_csbi(screen_manager: &Arc<Stdout>) -> Result<CONSOLE_SCREEN_BUFFER_IN
 
 /// Get buffer info and handle of the current screen.
 pub fn get_csbi_and_handle(
-    screen_manager: &Arc<Stdout>,
+    screen_manager: &Arc<TerminalOutput>,
 ) -> Result<(CONSOLE_SCREEN_BUFFER_INFO, HANDLE)> {
     let handle = handle::get_current_handle(screen_manager)?;
     let csbi = get_csbi_by_handle(&handle)?;
@@ -63,7 +62,7 @@ pub fn get_csbi_by_handle(handle: &HANDLE) -> Result<CONSOLE_SCREEN_BUFFER_INFO>
 }
 
 /// Set the console screen buffer size
-pub fn set_console_screen_buffer_size(size: COORD, screen_manager: &Arc<Stdout>) -> bool {
+pub fn set_console_screen_buffer_size(size: COORD, screen_manager: &Arc<TerminalOutput>) -> bool {
     let handle = handle::get_current_handle(screen_manager).unwrap();
 
     unsafe {

@@ -3,13 +3,11 @@
 use winapi::ctypes::c_void;
 use winapi::shared::ntdef::NULL;
 use winapi::um::consoleapi::WriteConsoleW;
-use winapi::um::wincon::{
-    self, FillConsoleOutputAttribute, FillConsoleOutputCharacterA, WriteConsoleOutputA, CHAR_INFO,
-    COORD, PSMALL_RECT,
-};
+use winapi::um::wincon::{self, FillConsoleOutputAttribute, FillConsoleOutputCharacterA,
+                         WriteConsoleOutputA, CHAR_INFO, COORD, PSMALL_RECT};
 use winapi::um::winnt::HANDLE;
 
-use super::{csbi, handle, kernel, Stdout};
+use super::{csbi, handle, kernel, TerminalOutput};
 
 use std::io::{self, ErrorKind, Result};
 use std::str;
@@ -20,7 +18,7 @@ pub fn fill_console_output_character(
     cells_written: &mut u32,
     start_location: COORD,
     cells_to_write: u32,
-    screen_manager: &Arc<Stdout>,
+    screen_manager: &Arc<TerminalOutput>,
 ) -> bool {
     let handle = handle::get_current_handle(screen_manager).unwrap();
 
@@ -42,7 +40,7 @@ pub fn fill_console_output_attribute(
     cells_written: &mut u32,
     start_location: COORD,
     cells_to_write: u32,
-    screen_manager: &Arc<Stdout>,
+    screen_manager: &Arc<TerminalOutput>,
 ) -> bool {
     // Get the position of the current console window
 

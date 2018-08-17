@@ -20,7 +20,7 @@ use common::commands::unix_command;
 #[cfg(windows)]
 use common::commands::win_commands;
 
-use write::Stdout;
+use TerminalOutput;
 
 /// This type could be used to access the `cursor, terminal, color, input, styling` module more easily.
 /// You need to pass a reference to the screen where on you want to perform the actions to the `Crossterm` type.
@@ -50,7 +50,7 @@ use write::Stdout;
 /// }
 /// ```
 pub struct Crossterm {
-    pub stdout: Arc<Stdout>
+    pub stdout: Arc<TerminalOutput>
 }
 
 impl<'crossterm> Crossterm {

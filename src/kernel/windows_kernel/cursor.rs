@@ -1,11 +1,10 @@
 //! This module handles some logic for cursor interaction in the windows console.
 
 use winapi::shared::minwindef::{FALSE, TRUE};
-use winapi::um::wincon::{
-    SetConsoleCursorInfo, SetConsoleCursorPosition, CONSOLE_CURSOR_INFO, COORD,
-};
-
-use super::super::super::modules::write::{Stdout, WinApiStdout};
+use winapi::um::wincon::{SetConsoleCursorInfo, SetConsoleCursorPosition, CONSOLE_CURSOR_INFO,
+                         COORD};
+use TerminalOutput;
+use super::super::super::modules::write::{WinApiStdout};
 use super::{csbi, handle, kernel};
 
 use std::io::{self, ErrorKind, Result};
@@ -15,7 +14,7 @@ use std::sync::Arc;
 static mut SAVED_CURSOR_POS: (u16, u16) = (0, 0);
 
 /// Reset to saved cursor position
-pub fn reset_to_saved_position(screen_manager: &Arc<Stdout>) {
+pub fn reset_to_saved_position(screen_manager: &Arc<TerminalOutput>) {
     unsafe {
         set_console_cursor_position(
             SAVED_CURSOR_POS.0 as i16,
@@ -26,7 +25,7 @@ pub fn reset_to_saved_position(screen_manager: &Arc<Stdout>) {
 }
 
 /// Save current cursor position to recall later.
-pub fn save_cursor_pos(screen_manager: &Arc<Stdout>) {
+pub fn save_cursor_pos(screen_manager: &Arc<TerminalOutput>) {
     let position = pos(screen_manager);
 
     unsafe {
@@ -35,7 +34,7 @@ pub fn save_cursor_pos(screen_manager: &Arc<Stdout>) {
 }
 
 /// get the current cursor position.
-pub fn pos(screen_manager: &Arc<Stdout>) -> (u16, u16) {
+pub fn pos(screen_manager: &Arc<TerminalOutput>) -> (u16, u16) {
     let handle = handle::get_current_handle(screen_manager).unwrap();
 
     if let Ok(csbi) = csbi::get_csbi_by_handle(&handle) {
@@ -49,7 +48,7 @@ pub fn pos(screen_manager: &Arc<Stdout>) -> (u16, u16) {
 }
 
 /// Set the cursor position to the given x and y. Note that this is 0 based.
-pub fn set_console_cursor_position(x: i16, y: i16, screen_manager: &Arc<Stdout>) {
+pub fn set_console_cursor_position(x: i16, y: i16, screen_manager: &Arc<TerminalOutput>) {
     if x < 0 || x >= <i16>::max_value() {
         panic!(
             "Argument Out of Range Exception when setting cursor position to X: {}",
@@ -78,7 +77,7 @@ pub fn set_console_cursor_position(x: i16, y: i16, screen_manager: &Arc<Stdout>)
 }
 
 /// change the cursor visibility.
-pub fn cursor_visibility(visable: bool, screen_manager: &Arc<Stdout>) -> Result<()> {
+pub fn cursor_visibility(visable: bool, screen_manager: &Arc<TerminalOutput>) -> Result<()> {
     let handle = handle::get_current_handle(screen_manager).unwrap();
 
     let cursor_info = CONSOLE_CURSOR_INFO {
