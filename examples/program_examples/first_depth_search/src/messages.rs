@@ -1,5 +1,3 @@
-use super::variables::Position;
-
 pub const WELCOME_MESSAGE: [&str; 6] =
 [
     "__      __       .__   __                           ",
@@ -9,7 +7,6 @@ pub const WELCOME_MESSAGE: [&str; 6] =
     "  \\__/\\  /  \\___  >____/__|_ \\____/|__|_|  /\\___ >  ",
     "     \\/       \\/          \\/           \\/     \\/  "
 ];
-
 pub const END_MESSAGE: [&str; 5] =
 [
     "-----------------------",

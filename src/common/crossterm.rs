@@ -50,7 +50,7 @@ use write::Stdout;
 /// }
 /// ```
 pub struct Crossterm {
-    stdout: Arc<Stdout>
+    pub stdout: Arc<Stdout>
 }
 
 impl<'crossterm> Crossterm {

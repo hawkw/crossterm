@@ -35,7 +35,7 @@ impl Map
             map.push(row);
         }
 
-        Map { map: map, size: Size::new(map_size.width, map_size.height)}
+        Map { map: map, size: Size::new(map_size.width, map_size.height) }
     }
 
     // render the map on the screen.
