@@ -3,8 +3,9 @@
 //!
 //! Windows versions lower then windows 10 are not supporting ANSI codes. Those versions will use this implementation instead.
 
-use cursor;
+use cursor::cursor;
 use super::*;
+
 use kernel::windows_kernel::{csbi, kernel, terminal, writing};
 use winapi::um::wincon::{CONSOLE_SCREEN_BUFFER_INFO, COORD, SMALL_RECT};
 
@@ -20,7 +21,7 @@ impl WinApiTerminal {
 impl ITerminal for WinApiTerminal {
     fn clear(&self, clear_type: ClearType, terminal_output: &Arc<TerminalOutput>) {
         let csbi = csbi::get_csbi(terminal_output).unwrap();
-        let pos = terminal_cursor().pos();
+        let pos = cursor().pos(terminal_output);
 
         match clear_type {
             ClearType::All => {
@@ -243,7 +244,7 @@ pub fn clear_current_line(
     clear(start_location, cells_to_write, screen_manager);
 
     // put the cursor back at 1 cell on current row
-    TerminalCursor::new(screen_manager).goto(0, y);
+    cursor().goto(0, y, screen_manager);
 }
 
 pub fn clear_until_line(
@@ -264,7 +265,7 @@ pub fn clear_until_line(
     clear(start_location, cells_to_write, &screen_manager);
 
     // put the cursor back at original cursor position
-    TerminalCursor::new(screen_manager).goto(x, y);
+    cursor().goto(x, y, screen_manager);
 }
 
 fn clear(start_loaction: COORD, cells_to_write: u32, screen_manager: &Arc<TerminalOutput>) {

@@ -1,16 +1,12 @@
 //! Module that contains all the actions related to the terminal. like clearing, resizing and scrolling the terminal.
-
-pub mod terminal;
-
 mod ansi_terminal;
 #[cfg(target_os = "windows")]
 mod winapi_terminal;
 
-use self::ansi_terminal::AnsiTerminal;
+pub use self::ansi_terminal::AnsiTerminal;
 #[cfg(target_os = "windows")]
-use self::winapi_terminal::WinApiTerminal;
+pub use self::winapi_terminal::WinApiTerminal;
 
-pub use self::terminal::{terminal, Terminal};
 use super::{functions};
 use std::sync::Arc;
 
@@ -33,7 +29,7 @@ pub enum ClearType {
 ///
 /// This trait is implemented for `WINAPI` (Windows specific) and `ANSI` (Unix specific),
 /// so that color related actions can be preformed on both unix and windows systems.
-trait ITerminal: Send+Sync {
+pub trait ITerminal: Send+Sync {
     /// Clear the current cursor by specifying the clear type
     fn clear(&self, clear_type: ClearType, screen_manager: &Arc<TerminalOutput>);
     /// Get the terminal size (x,y)

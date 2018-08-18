@@ -1,6 +1,7 @@
 //! Some actions need to preformed platform independently since they can not be solved `ANSI escape codes`.
 
 use std::sync::Arc;
+use TerminalOutput;
 
 #[cfg(windows)]
 use kernel::windows_kernel::ansi_support::{try_enable_ansi_support, windows_supportable};

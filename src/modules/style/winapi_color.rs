@@ -4,7 +4,7 @@
 //! Windows versions lower then windows 10 are not supporting ANSI codes. Those versions will use this implementation instead.
 
 use modules::write::WinApiStdout;
-use modules::style::{Color, ColorType, ITerminalColor, TerminalOutput};
+use modules::style::{Color, ColorType, ITerminalColor};
 use TerminalOutput;
 
 use kernel::windows_kernel::{csbi, kernel};
@@ -68,7 +68,7 @@ impl ITerminalColor for WinApiColor {
         kernel::set_console_text_attribute(color, stdout);
     }
 
-    fn reset(&self, stdout: &Arc<Stdout>) {
+    fn reset(&self, stdout: &Arc<TerminalOutput>) {
         kernel::set_console_text_attribute(self.original_color, stdout);
     }
 

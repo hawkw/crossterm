@@ -14,6 +14,7 @@ mod input;
 mod terminal_output;
 mod crossterm;
 mod color;
+mod terminal;
 
 pub use self::cursor::*;
 pub use self::input::*;

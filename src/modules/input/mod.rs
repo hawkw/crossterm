@@ -8,9 +8,9 @@ mod unix_input;
 mod windows_input;
 
 #[cfg(not(target_os = "windows"))]
-use self::unix_input::UnixInput;
+pub use self::unix_input::UnixInput;
 #[cfg(target_os = "windows")]
-use self::windows_input::WindowsInput;
+pub use self::windows_input::WindowsInput;
 
 
 use std::io::{self, Error, ErrorKind, Read};

@@ -5,6 +5,7 @@ use std::io;
 use std::sync::Arc;
 use super::*;
 use modules::input::*;
+
 pub type TerminalInput = Box<ITerminalInput>;
 
 pub fn input() -> TerminalInput {
